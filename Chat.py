@@ -1,7 +1,7 @@
 from torch.utils.data import Dataset
 import json
 
-class ChatData (Dataset):
+class Chat(Dataset):
 
     def __init__(self, path:str, tokenizer) -> None:
 
@@ -9,11 +9,11 @@ class ChatData (Dataset):
 
         self.units = []
         for i in self.data:
-            self.units.append((i['question'], i['answer']))
+            self.units.append((i['question'], i['answer'], i['asin']))
 
         for index, i in enumerate(self.units):
-            question, answer = i
-            self.units[index] = "<startofstring> " + question + " <bot>: " + answer + " <endofstring>"
+            question, answer, asin = i
+            self.units[index] = "<startofstring> " + "About " + asin + ". " + question + " <bot>: " + answer + " <endofstring>"
 
         self.units = self.units[:-1]
 
