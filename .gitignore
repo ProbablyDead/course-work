@@ -1,2 +1,5 @@
 /.idea/
 /venv/
+/sources/
+/__pycache__/
+.DS_Store
