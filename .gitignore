@@ -2,4 +2,5 @@
 /venv/
 /sources/
 /__pycache__/
+/datasets_json/
 .DS_Store

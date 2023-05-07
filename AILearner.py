@@ -35,7 +35,7 @@ tokenizer.add_tokens(["<bot>:"])
 model = GPT2LMHeadModel.from_pretrained("gpt2")
 model.resize_token_embeddings(len(tokenizer))
 
-chatData = Chat("sources/qa_Appliances.json", tokenizer)
+chatData = Chat("./datasets_json/entertainment_harrypotter.json", tokenizer)
 chatData = DataLoader(chatData, batch_size=64)
 
 model.train()

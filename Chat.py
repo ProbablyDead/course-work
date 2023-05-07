@@ -9,13 +9,15 @@ class Chat(Dataset):
 
         self.units = []
         for i in self.data:
-            self.units.append((i['question'], i['answer'], i['asin']))
+            self.units.append(i['text'])
 
         for index, i in enumerate(self.units):
-            question, answer, asin = i
-            self.units[index] = "<startofstring> " + "About " + asin + ". " + question + " <bot>: " + answer + " <endofstring>"
+            try:
+                self.units[index] = "<startofstring> " + i + " <bot>: " + self.units[index+1] + " <endofstring>"
+            except:
+                pass
 
-        self.units = self.units[:-1]
+        self.units = self.units[:1000]
 
         print(self.units[0])
 
