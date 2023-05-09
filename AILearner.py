@@ -14,6 +14,17 @@ UNITS_TO_LEARN = 10000
 MAX_REQUEST_LENGTH = 40
 
 
+def chatting():
+    while True:
+        try:
+            inp = input("> ")
+        except:
+            break
+        if inp == "exit":
+            break
+        print(infer(inp))
+
+
 def train(chatData, model, optim):
     epochs = EPOCHS
 
@@ -45,20 +56,23 @@ def infer(inp):
     return output
 
 
-device = "cuda" if torch.cuda.is_available() else "cpu"
+if __name__ == "__main__":
+    device = "cuda" if torch.cuda.is_available() else "cpu"
 
-tokenizer = GPT2Tokenizer.from_pretrained(PRETRAINED_MODEL)
-tokenizer.add_special_tokens({"pad_token": "<pad>",
-                              "bos_token": "<startofstring>",
-                              "eos_token": "<endofstring>"})
-tokenizer.add_tokens(["<bot>:"])
+    tokenizer = GPT2Tokenizer.from_pretrained(PRETRAINED_MODEL)
+    tokenizer.add_special_tokens({"pad_token": "<pad>",
+                                  "bos_token": "<startofstring>",
+                                  "eos_token": "<endofstring>"})
+    tokenizer.add_tokens(["<bot>:"])
 
-model = GPT2LMHeadModel.from_pretrained(PRETRAINED_MODEL)
-model.resize_token_embeddings(len(tokenizer))
+    model = GPT2LMHeadModel.from_pretrained(PRETRAINED_MODEL)
+    model.resize_token_embeddings(len(tokenizer))
 
-chatData = Chat(DATASET_PATH, tokenizer)
-chatData = DataLoader(chatData, batch_size=64)
+    chatData = Chat(DATASET_PATH, tokenizer)
+    chatData = DataLoader(chatData, batch_size=64)
 
-model.train()
+    model.train()
 
-optim = Adam(model.parameters(), lr=1e-3)
+    optim = Adam(model.parameters(), lr=1e-3)
+
+    train(chatData, model, optim)

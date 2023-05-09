@@ -1,5 +1,6 @@
 from torch.utils.data import Dataset
 import json
+
 NUMBER_OF_UNITS_TO_LEARN = 1000  # -1 is for whole dataset
 MAX_BOT_ANSWER_LENGTH = 80
 
