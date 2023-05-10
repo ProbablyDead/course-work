@@ -34,5 +34,4 @@ class Chat(Dataset):
         return len(self.units)
 
     def __getitem__(self, index):
-
         return self.input_ids[index], self.attention_mask[index]

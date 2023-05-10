@@ -1,5 +1,5 @@
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
-from Chat import Chat
+from AI import Chat
 from torch.optim import Adam
 from torch.utils.data import DataLoader
 import tqdm
@@ -14,18 +14,11 @@ UNITS_TO_LEARN = 10000
 MAX_REQUEST_LENGTH = 40
 
 
-def chatting():
-    while True:
-        try:
-            inp = input("> ")
-        except:
-            break
-        if inp == "exit":
-            break
-        print(infer(inp))
+def get_device () -> str:
+    return "cuda" if torch.cuda.is_available() else "cpu"
 
 
-def train(chatData, model, optim):
+def train(chatData, model, optim, device):
     epochs = EPOCHS
 
     for i in tqdm.tqdm(range(epochs)):
@@ -37,12 +30,10 @@ def train(chatData, model, optim):
             loss.backward()
             optim.step()
 
-        print(infer(DEFAULT_MESSAGE))
-
         torch.save(model.state_dict(), PT_FILE_PATH)
 
 
-def infer(inp):
+def infer(inp, model, tokenizer, device) -> str:
     inp = "<startofstring> " + inp + " <bot>: "
     inp = tokenizer(inp, return_tensors="pt")
 
@@ -51,13 +42,11 @@ def infer(inp):
 
     output = model.generate(unit, attention_mask=a, max_length=MAX_REQUEST_LENGTH)
     output = tokenizer.decode(output[0])
-    output = output.split("<bot>:")[1]
-    output = output.replace("<pad>", '')
     return output
 
 
-if __name__ == "__main__":
-    device = "cuda" if torch.cuda.is_available() else "cpu"
+def train_default_model():
+    device = get_device()
 
     tokenizer = GPT2Tokenizer.from_pretrained(PRETRAINED_MODEL)
     tokenizer.add_special_tokens({"pad_token": "<pad>",
@@ -75,4 +64,4 @@ if __name__ == "__main__":
 
     optim = Adam(model.parameters(), lr=1e-3)
 
-    train(chatData, model, optim)
+    train(chatData, model, optim, device)
