@@ -8,20 +8,21 @@ import torch
 PT_FILE_PATH = "model_state.pt"
 PRETRAINED_MODEL = "gpt2"
 DATASET_PATH = "sources/datasets/humor_funny.json"
-DEFAULT_MESSAGE = "tell me an joke"
+DEFAULT_MESSAGE = "joe biden"
 EPOCHS = 10
 UNITS_TO_LEARN = 10000
 MAX_REQUEST_LENGTH = 40
+BATCH_SIZE = 32
 
 
-def get_device () -> str:
+def get_device() -> str:
     return "cuda" if torch.cuda.is_available() else "cpu"
 
 
 def train(chatData, model, optim, device):
     epochs = EPOCHS
 
-    for i in tqdm.tqdm(range(epochs)):
+    for _ in tqdm.tqdm(range(epochs)):
         for unit, a in chatData:
             unit = unit.to(device)
             a = a.to(device)
@@ -57,11 +58,11 @@ def train_default_model():
     model = GPT2LMHeadModel.from_pretrained(PRETRAINED_MODEL)
     model.resize_token_embeddings(len(tokenizer))
 
-    chatData = Chat(DATASET_PATH, tokenizer)
-    chatData = DataLoader(chatData, batch_size=64)
+    chat_data = Chat.Chat(DATASET_PATH, tokenizer)
+    chat_data = DataLoader(chat_data, batch_size=BATCH_SIZE)
 
     model.train()
 
     optim = Adam(model.parameters(), lr=1e-3)
 
-    train(chatData, model, optim, device)
+    train(chat_data, model, optim, device)
