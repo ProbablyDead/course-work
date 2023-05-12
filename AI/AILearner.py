@@ -11,12 +11,7 @@ DATASET_PATH = "../sources/datasets/discussions_debatepedia.json"
 DEFAULT_MESSAGE = "Is/was the passage of a $700b bill urgent?"
 EPOCHS = 10
 UNITS_TO_LEARN = 10000
-MAX_REQUEST_LENGTH = 40
 BATCH_SIZE = 32
-
-
-def get_device() -> str:
-    return "cuda" if torch.cuda.is_available() else "cpu"
 
 
 def train(chatData, model, optim, device):
@@ -34,20 +29,8 @@ def train(chatData, model, optim, device):
         torch.save(model.state_dict(), PT_FILE_PATH)
 
 
-def infer(inp, model, tokenizer, device) -> str:
-    inp = "<startofstring> " + inp + " <bot>: "
-    inp = tokenizer(inp, return_tensors="pt")
-
-    unit = inp["input_ids"].to(device)
-    a = inp["attention_mask"].to(device)
-
-    output = model.generate(unit, attention_mask=a, max_length=MAX_REQUEST_LENGTH)
-    output = tokenizer.decode(output[0])
-    return output
-
-
 def train_default_model():
-    device = get_device()
+    device = "cuda" if torch.cuda.is_available() else "cpu"
 
     tokenizer = GPT2Tokenizer.from_pretrained(PRETRAINED_MODEL)
     tokenizer.add_special_tokens({"pad_token": "<pad>",
