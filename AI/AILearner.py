@@ -7,8 +7,8 @@ import torch
 
 PT_FILE_PATH = "model_state.pt"
 PRETRAINED_MODEL = "gpt2"
-DATASET_PATH = "sources/datasets/humor_funny.json"
-DEFAULT_MESSAGE = "joe biden"
+DATASET_PATH = "../sources/datasets/discussions_debatepedia.json"
+DEFAULT_MESSAGE = "Is/was the passage of a $700b bill urgent?"
 EPOCHS = 10
 UNITS_TO_LEARN = 10000
 MAX_REQUEST_LENGTH = 40

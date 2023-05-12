@@ -1,20 +1,20 @@
-import torch
 from AI import AILearner
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
+
+PRETRAINED = "../sources/model/pretrained"
 
 
 def load_pretrained() -> tuple:
     device = AILearner.get_device()
 
-    tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
+    tokenizer = GPT2Tokenizer.from_pretrained(PRETRAINED)
     tokenizer.add_special_tokens({"pad_token": "<pad>",
                                   "bos_token": "<startofstring>",
                                   "eos_token": "<endofstring>"})
     tokenizer.add_tokens(["<bot>:"])
 
-    model = GPT2LMHeadModel.from_pretrained("gpt2")
+    model = GPT2LMHeadModel.from_pretrained(PRETRAINED)
     model.resize_token_embeddings(len(tokenizer))
-    model.load_state_dict(torch.load("../sources/model/model_state.pt", device))
     model.eval()
 
     return model, tokenizer, device

@@ -1,6 +1,5 @@
 /.idea/
 /venv/
-/sources/
+/sources/model/model_state.pt
 /__pycache__/
-/datasets_json/
 .DS_Store
