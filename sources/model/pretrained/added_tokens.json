@@ -1,3 +1,6 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:22df00c862295b14f9c53bae80e9efff452aac9a14b0f6bdd7df4dd9583f72b9
-size 94
+{
+  "<bot>:": 50260,
+  "<endofstring>": 50259,
+  "<pad>": 50257,
+  "<startofstring>": 50258
+}
