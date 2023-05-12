@@ -14,7 +14,7 @@ UNITS_TO_LEARN = 10000
 BATCH_SIZE = 32
 
 
-def train(chatData, model, optim, device):
+def train(chatData, model, optim, device) -> None:
     epochs = EPOCHS
 
     for _ in tqdm.tqdm(range(epochs)):
@@ -29,7 +29,7 @@ def train(chatData, model, optim, device):
         torch.save(model.state_dict(), PT_FILE_PATH)
 
 
-def train_default_model():
+def train_default_model() -> None:
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
     tokenizer = GPT2Tokenizer.from_pretrained(PRETRAINED_MODEL)

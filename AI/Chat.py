@@ -39,5 +39,5 @@ class Chat(Dataset):
     def __len__(self) -> int:
         return len(self.units)
 
-    def __getitem__(self, index):
+    def __getitem__(self, index: int) -> tuple:
         return self.input_ids[index], self.attention_mask[index]

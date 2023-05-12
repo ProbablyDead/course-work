@@ -1,7 +1,7 @@
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
 import torch
 
-PRETRAINED = "../sources/model/pretrained"
+PRETRAINED = "sources/model/pretrained"
 MAX_REQUEST_LENGTH = 40
 
 
@@ -16,7 +16,7 @@ def infer(inp, model, tokenizer, device) -> str:
     unit = inp["input_ids"].to(device)
     a = inp["attention_mask"].to(device)
 
-    output = model.generate(unit, attention_mask=a, max_length=MAX_REQUEST_LENGTH)
+    output = model.generate(unit, attention_mask=a, max_length=MAX_REQUEST_LENGTH, pad_token_id=tokenizer.eos_token_id)
     output = tokenizer.decode(output[0])
     return output
 
