@@ -9,3 +9,4 @@ if __name__ == "__main__":
     with open(TEST_FILE_PATH, "w") as file:
         for request, answer, time_completed in tests:
             file.write(f'{request}: (in {time_completed:.2} sec) \n\t\t{answer}\n\n')
+
