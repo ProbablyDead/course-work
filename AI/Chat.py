@@ -5,9 +5,11 @@ NUMBER_OF_UNITS_TO_LEARN = 1000  # -1 is for whole dataset
 MAX_BOT_ANSWER_LENGTH = 80
 
 
-def parse(path: str) -> list:
-    def format_string(q: str, a: str) -> str:
-        return "<startofstring> " + q[q.find(':') + 2:] + " <bot>: " + a + " <endofstring>"
+def format_string(q: str, a: str) -> str:
+    return "<startofstring> " + q[q.find(':') + 2:] + " <bot>: " + a + " <endofstring>"
+
+
+def parse(path: str, formatter) -> list:
 
     try:
         file = json.load(open(path, 'r'))
@@ -19,7 +21,7 @@ def parse(path: str) -> list:
         for subtopic in data['subtopics']:
             question = subtopic['title']
             for argument in subtopic['arguments']:
-                units.append(format_string(question, argument['claim']))
+                units.append(formatter(question, argument['claim']))
 
     return units
 
@@ -27,7 +29,7 @@ def parse(path: str) -> list:
 class Chat(Dataset):
 
     def __init__(self, path: str, tokenizer) -> None:
-        self.units = parse(path)[:NUMBER_OF_UNITS_TO_LEARN]
+        self.units = parse(path, format_string)[:NUMBER_OF_UNITS_TO_LEARN]
 
         self.units_encoded = tokenizer(self.units, max_length=MAX_BOT_ANSWER_LENGTH, truncation=True,
                                        padding="max_length", return_tensors="pt")
