@@ -29,7 +29,7 @@ def train(chatData, model, optim, device) -> None:
         torch.save(model.state_dict(), PT_FILE_PATH)
 
 
-def prepair_default_model() -> None:
+def prepare_default_model() -> None:
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
     tokenizer = GPT2Tokenizer.from_pretrained(PRETRAINED_MODEL)
