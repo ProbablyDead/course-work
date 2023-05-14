@@ -34,8 +34,8 @@ def test(path: str):
     units = parse(path)
     result = []
 
-    with alive_bar(len(units[:10])) as bar:
-        for i in units[:10]:
+    with alive_bar(len(units)) as bar:
+        for i in units:
             bar()
             start_time = time.time()
             answer = bot.get_bot_answer(i)
