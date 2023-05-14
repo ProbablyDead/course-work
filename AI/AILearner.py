@@ -14,11 +14,11 @@ UNITS_TO_LEARN = 10000
 BATCH_SIZE = 32
 
 
-def train(chatData, model, optim, device) -> None:
+def train(chat_data, model, optim, device) -> None:
     epochs = EPOCHS
 
     for _ in tqdm.tqdm(range(epochs)):
-        for unit, a in chatData:
+        for unit, a in chat_data:
             unit = unit.to(device)
             a = a.to(device)
             optim.zero_grad()
