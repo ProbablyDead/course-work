@@ -6,6 +6,7 @@ import tqdm
 import torch
 
 PT_FILE_PATH = "model_state.pt"
+SAVED_MODEL = "sources/model/pretrained"
 PRETRAINED_MODEL = "gpt2"
 DATASET_PATH = "../sources/datasets/discussions_debatepedia.json"
 DEFAULT_MESSAGE = "Is/was the passage of a $700b bill urgent?"
@@ -26,7 +27,8 @@ def train(chat_data, model, optim, device) -> None:
             loss.backward()
             optim.step()
 
-        torch.save(model.state_dict(), PT_FILE_PATH)
+        model.save_pretrained(SAVED_MODEL)
+        tokenizer.save_pretrained(SAVED_MODEL)
 
 
 def prepare_default_model() -> None:
