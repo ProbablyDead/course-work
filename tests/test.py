@@ -29,11 +29,10 @@ def chatting(using_bot: API) -> None:
             return
 
 
-def test(path: str) -> tuple:
+def test(path: str):
     bot = API()
     units = parse(path)
     result = []
-    start_time = time.time()
 
     with alive_bar(len(units)) as bar:
         for i in units:

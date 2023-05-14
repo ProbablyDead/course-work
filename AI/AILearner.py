@@ -15,7 +15,7 @@ UNITS_TO_LEARN = 10000
 BATCH_SIZE = 32
 
 
-def train(chat_data, model, optim, device) -> None:
+def train(chat_data, model, tokenizer, optim, device) -> None:
     epochs = EPOCHS
 
     for _ in tqdm.tqdm(range(epochs)):
@@ -50,4 +50,4 @@ def prepare_default_model() -> None:
 
     optim = Adam(model.parameters(), lr=1e-3)
 
-    train(chat_data, model, optim, device)
+    train(chat_data, model, tokenizer, optim, device)
