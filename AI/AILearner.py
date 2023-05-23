@@ -16,6 +16,19 @@ BATCH_SIZE = 32
 
 
 def train(chat_data, model, tokenizer, optim, device) -> None:
+    """
+    Trains the GPT2 language model.
+
+    Args:
+        chat_data (DataLoader): DataLoader object containing the chat data.
+        model (GPT2LMHeadModel): Pretrained GPT2 language model.
+        tokenizer (GPT2Tokenizer): Tokenizer object for GPT2.
+        optim (Adam): Optimizer object.
+        device (str): Device to use for training.
+
+    Returns:
+        None
+    """
     epochs = EPOCHS
 
     for _ in tqdm.tqdm(range(epochs)):
@@ -32,6 +45,12 @@ def train(chat_data, model, tokenizer, optim, device) -> None:
 
 
 def prepare_default_model() -> None:
+    """
+    Prepares the default GPT2 language model for training.
+
+    Returns:
+        None
+    """
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
     tokenizer = GPT2Tokenizer.from_pretrained(PRETRAINED_MODEL)

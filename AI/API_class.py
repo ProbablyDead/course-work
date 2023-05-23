@@ -6,10 +6,28 @@ MAX_REQUEST_LENGTH = 40
 
 
 def get_device() -> str:
+    """
+    Returns the device to be used for training or inference.
+
+    Returns:
+        str: Device ("cuda" or "cpu").
+    """
     return "cuda" if torch.cuda.is_available() else "cpu"
 
 
 def infer(inp, model, tokenizer, device) -> str:
+    """
+    Performs inference using the GPT2 language model.
+
+    Args:
+        inp (str): Input text for inference.
+        model (GPT2LMHeadModel): Pretrained GPT2 language model.
+        tokenizer (GPT2Tokenizer): Tokenizer object for GPT2.
+        device (str): Device to use for inference.
+
+    Returns:
+        str: Generated output text.
+    """
     inp = "<startofstring> " + inp + " <bot>: "
     inp = tokenizer(inp, return_tensors="pt")
 
@@ -22,6 +40,12 @@ def infer(inp, model, tokenizer, device) -> str:
 
 
 def load_pretrained() -> tuple:
+    """
+    Loads the pretrained GPT2 language model and tokenizer.
+
+    Returns:
+        tuple: Tuple containing the loaded model, tokenizer, and device.
+    """
     device = get_device()
 
     tokenizer = GPT2Tokenizer.from_pretrained(PRETRAINED)
@@ -42,6 +66,15 @@ class API:
         self.model, self.tokenizer, self.device = load_pretrained()
 
     def get_bot_answer(self, request: str) -> str:
+        """
+        Generates a response from the chatbot given an input request.
+
+        Args:
+            request (str): Input request.
+
+        Returns:
+            str: Generated response from the chatbot.
+        """
         result = infer(request, self.model, self.tokenizer, self.device)
         result = result.split("<bot>:")[1]
         result = result.replace("<pad>", '')
